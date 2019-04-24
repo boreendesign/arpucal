@@ -40,18 +40,25 @@ $(document).ready(function() {
     $('#impressions').val(GetURLParameter('impressions'));
     $('#unit_rate').val(GetURLParameter('unit_rate'));
     $('#summary').val(GetURLParameter('summary'));
+    $('#arpu').val(GetURLParameter('arpu'));
+
     $('#calculate').on('click', function(e) {
         $sessions = $('#sessions').val();
         $users = $('#users').val();
         $impressions = $('#impressions').val();
         $unit_rate = $('#unit_rate').val();
         $summary = $('#summary').val();
+        $arpu = $('#arpu').val();
 
-        window.location.search = 'sessions=' + $sessions + '&users=' + $users + '&impressions=' + $impressions + '&unit_rate=' + $unit_rate+ '&summary=' + $summary;
-        $arpu =  ($sessions * $users)/($impressions * parseFloat($unit_rate));
+        $revenue =  ($impressions * parseFloat($unit_rate));
+        console.log($revenue);
+        $arpu =  ($revenue/$users);
+
         $arpu = ($arpu).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
         console.log(parseFloat($arpu));
-        $('#arpu').html($arpu);
+        $('#arpu').val($arpu);
+        window.location.search = 'sessions=' + $sessions + '&users=' + $users + '&impressions=' + $impressions + '&unit_rate=' + $unit_rate+ '&summary=' + $summary+ '&arpu=' + $arpu;
+
     });
 });
 
@@ -66,16 +73,15 @@ $(document).ready(function() {
   </tr>
   <tr>
     <td>(Impressions</td>
-    <td>*</td>
+    <td></td>
     <td>Unit Rate)</td>
-    <td> / </td>
+    <td>  </td>
     <td>(Users</td>
-    <td>*</td>
+    <td></td>
     <td>Sessions)</td>
     <td></td>
     <td></td>
-    <td></td>
-    <td>ARPU</td>
+
   </tr>
   <tr>
     <td><input id = 'impressions'  type = 'text'  value = ''></td>
@@ -87,10 +93,20 @@ $(document).ready(function() {
     <td><input id = 'sessions' type = 'text' value = '4'></td>
     <td> </td>
     <td><input id = 'calculate'  type = 'button' value = 'calculate'></td>
-    <td> </td>
-    <td><span id = 'arpu'></span></td>
+
+  </tr>
+  <tr>
+    <td><br/><br/><br/></td>
+  </tr>
+  <tr>
+    <td colspan = '4'> (Impressions * Unit Rate) / Users: ARPU =  </td>
+    <td><input id = 'arpu'  type = 'text'  disabled></span></td>
   </tr>
 </table>
+
+
+
+
 <br/><br/><br/>
 <h2>
 Legend
