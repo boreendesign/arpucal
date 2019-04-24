@@ -45,7 +45,7 @@ $(document).ready(function() {
         $users = $('#users').val();
         $impressions = $('#impressions').val();
         $unit_rate = $('#unit_rate').val();
-
+        $summary = $('#summary').val();
 
         window.location.search = 'sessions=' + $sessions + '&users=' + $users + '&impressions=' + $impressions + '&unit_rate=' + $unit_rate+ '&summary=' + $summary;
         $arpu =  ($sessions * $users)/($impressions * parseFloat($unit_rate));
