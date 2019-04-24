@@ -19,14 +19,35 @@ body{
 </style>
 
 <script>
+function GetURLParameter(sParam)
+{
+    var sPageURL = window.location.search.substring(1);
+    var sURLVariables = sPageURL.split('&');
+    for (var i = 0; i < sURLVariables.length; i++)
+    {
+        var sParameterName = sURLVariables[i].split('=');
+        if (sParameterName[0] == sParam)
+        {
+            return sParameterName[1];
+        }
+    }
+}
 
 $(document).ready(function() {
+
+    $('#sessions').val(GetURLParameter('sessions'));
+    $('#users').val(GetURLParameter('users'));
+    $('#impressions').val(GetURLParameter('impressions'));
+    $('#unit_rate').val(GetURLParameter('unit_rate'));
+    $('#summary').val(GetURLParameter('summary'));
     $('#calculate').on('click', function(e) {
         $sessions = $('#sessions').val();
         $users = $('#users').val();
         $impressions = $('#impressions').val();
         $unit_rate = $('#unit_rate').val();
 
+
+        window.location.search = 'sessions=' + $sessions + '&users=' + $users + '&impressions=' + $impressions + '&unit_rate=' + $unit_rate+ '&summary=' + $summary;
         $arpu =  ($sessions * $users)/($impressions * parseFloat($unit_rate));
         $arpu = ($arpu).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
         console.log(parseFloat($arpu));
@@ -39,6 +60,10 @@ $(document).ready(function() {
 <body>
 <h1>ARPU Calculator</h1>
 <table>
+  <tr>
+    <th>Summary</th>
+    <th colspan= "9"><input id = 'summary'  type = 'text'  value = '' style = "width:100%"></th>
+  </tr>
   <tr>
     <td>(Impressions</td>
     <td>*</td>
@@ -53,7 +78,7 @@ $(document).ready(function() {
     <td>ARPU</td>
   </tr>
   <tr>
-    <td><input id = 'impressions'  type = 'text'  value = '100'></td>
+    <td><input id = 'impressions'  type = 'text'  value = ''></td>
     <td> </td>
     <td><input  id = 'unit_rate' type = 'text'  value = '2.3'></td>
     <td> </td>
@@ -75,6 +100,10 @@ Legend
 </div>
 <div>
   ARPU = Total Revenue / # of Users
+</div>
+
+<div>
+Version : 1
 </div>
 
 
